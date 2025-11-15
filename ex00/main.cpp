@@ -1,11 +1,10 @@
-#include <iostream>
-#include "Class.hpp"
+#include "../ETM.hpp"
 
 using namespace std;
 
 int main(void)	
 {
-	cout << "===== Vector tests =====" << endl;
+	cout << "===== Vector tests =====" << endl << endl;
 
 	{
 		Vector<float> u({2., 3.});
@@ -37,7 +36,7 @@ int main(void)
 		// [6]
 	}
 
-	cout << "===== Matrix tests =====" << endl;
+	cout <<  endl << "===== Matrix tests =====" << endl << endl;
 
 	{
 		Matrix<float> u({
@@ -82,5 +81,53 @@ int main(void)
 		cout << u;
 		// [2, 4]
 		// [6, 8]
+	}
+
+	cout <<  endl << "===== Error cases =====" << endl << endl;
+
+	{
+		Matrix<float> u({
+			{1., 2., 3.},
+			{4., 5., 6.}
+		});
+		const Matrix<float> v({
+			{7., 8.},
+			{9., 10.}
+		});
+		u.add(v);
+		// The matrices doesn't have the same dimensions.
+	}
+
+	cout << "-----" << endl;
+
+	{
+		Matrix<float> u({
+			{1., 2., 3.},
+			{4., 5., 6.}
+		});
+		const Matrix<float> v({
+			{7., 8.},
+			{9., 10.}
+		});
+		u.sub(v);
+		// The matrices doesn't have the same dimensions.
+	}
+
+	cout << "-----" << endl;
+
+	{
+		Vector<float> u({1., 2., 3.});
+		const Vector<float> v({4., 5.});
+		u.sub(v);
+		// The vectors doesn't have the same size.
+	}
+
+	cout << "-----" << endl;
+
+	{
+		Vector<float> u({1., 2., 3.});
+		const Vector<float> v({4., 5.});
+		u.add(v);
+		// The vectors doesn't have the same size.
 	}
 }

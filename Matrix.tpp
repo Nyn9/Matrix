@@ -1,4 +1,4 @@
-#include "Class.hpp"
+#include "ETM.hpp"
 
 template <typename K>
 void	Matrix<K>::add(const Matrix<K> & m)
