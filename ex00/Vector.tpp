@@ -1,8 +1,9 @@
 #include "Class.hpp"
 
-void    Vector::add(const Vector & v)
+template <typename K>
+void    Vector<K>::add(const Vector<K> & v)
 {
-	const vector<float>& src = v.getData();
+	const vector<K>& src = v.getData();
 	size_t vsize = v.getSize();
 	if (vsize != _size) {
 		cerr << "The vectors doesn't have the same size." << endl; return ;
@@ -11,9 +12,10 @@ void    Vector::add(const Vector & v)
 		_data[i] += src[i];
 }
 
-void    Vector::sub(const Vector & v)
+template <typename K>
+void    Vector<K>::sub(const Vector<K> & v)
 {
-	const vector<float>& src = v.getData();
+	const vector<K>& src = v.getData();
 	size_t vsize = v.getSize();
 	if (vsize != _size) {
 		cerr << "The vectors doesn't have the same size." << endl; return ;
@@ -22,13 +24,15 @@ void    Vector::sub(const Vector & v)
 		_data[i] -= src[i];
 }
 
-void    Vector::scl(const float n)
+template <typename K>
+void    Vector<K>::scl(const K n)
 {
 	for (size_t i = 0; i != _size; i++)
 		_data[i] *= n;
 }
 
-ostream & operator<<(ostream & o, const Vector & v)
+template <typename K>
+ostream & operator<<(ostream & o, const Vector<K> & v)
 {
 	for (size_t i = 0; i != v.getSize(); i++)
 		o << "[ " << v.getData()[i] << " ]" << endl;

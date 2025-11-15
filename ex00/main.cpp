@@ -8,8 +8,8 @@ int main(void)
 	cout << "===== Vector tests =====" << endl;
 
 	{
-		Vector u({2., 3.});
-		const Vector v({5., 7.});
+		Vector<float> u({2., 3.});
+		const Vector<float> v({5., 7.});
 		u.add(v);
 		cout << u;
 		// [7]
@@ -19,8 +19,8 @@ int main(void)
 	cout << "-----" << endl;
 
 	{
-		Vector u({2., 3.});
-		const Vector v({5., 7.});
+		Vector<float> u({2., 3.});
+		const Vector<float> v({5., 7.});
 		u.sub(v);
 		cout << u;
 		// [-3]
@@ -30,7 +30,7 @@ int main(void)
 	cout << "-----" << endl;
 
 	{
-		Vector u({2., 3.});
+		Vector<float> u({2., 3.});
 		u.scl(2.);
 		cout << u;
 		// [4]
@@ -40,11 +40,11 @@ int main(void)
 	cout << "===== Matrix tests =====" << endl;
 
 	{
-		Matrix u({
+		Matrix<float> u({
 			{1., 2.},
 			{3., 4.}
 		});
-		const Matrix v({
+		const Matrix<float> v({
 			{7., 4.},
 			{-2, 2.}
 		});
@@ -57,11 +57,11 @@ int main(void)
 	cout << "-----" << endl;
 
 	{
-		Matrix u({
+		Matrix<float> u({
 			{1., 2.},
 			{3., 4.}
 		});
-		const Matrix v({
+		const Matrix<float> v({
 			{7., 4.},
 			{-2, 2.}
 		});
@@ -74,7 +74,7 @@ int main(void)
 	cout << "-----" << endl;
 
 	{
-		Matrix u({
+		Matrix<float> u({
 			{1., 2.},
 			{3., 4.}
 		});
