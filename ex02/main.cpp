@@ -1,5 +1,7 @@
 #include "../ETM.hpp"
 
+using namespace std;
+
 int main()
 {
 	cout << "===== Lerp tests =====" << endl << endl;

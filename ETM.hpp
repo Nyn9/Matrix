@@ -5,6 +5,8 @@
 
 #include <iostream>
 #include <vector>
+#include <cmath>
+#include <algorithm>
 
 using namespace std;
 
@@ -44,7 +46,12 @@ class Vector
 		void    add(const Vector<K> & v);
 		void    sub(const Vector<K> & v);
 		void    scl(const K n);
+
 		K		dot(const Vector<K> & v);
+
+		float	norm_1() const;
+		float	norm_2() const;
+		float	norm_inf() const;
 
 	private:
 		vector<K>	_data;

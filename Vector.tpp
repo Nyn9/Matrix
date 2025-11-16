@@ -43,6 +43,39 @@ K	Vector<K>::dot(const Vector<K> & v)
 }
 
 template <typename K>
+float	Vector<K>::norm_1() const
+{
+	float result = 0.0f;
+
+	for (size_t i = 0; i < _data.size(); i++)
+		result += pow(pow(_data[i], 2.f), 0.5f);
+
+	return result;
+}
+
+template <typename K>
+float	Vector<K>::norm_2() const
+{
+	float result = 0.0f;
+
+	for (size_t i = 0; i < _data.size(); i++)
+		result += pow(_data[i], 2.f);
+
+	return pow(result, 0.5f);
+}
+
+template <typename K>
+float	Vector<K>::norm_inf() const
+{
+	float result = 0.0f;
+	for (size_t i = 0; i < _data.size(); i++)
+		result = max(result, pow(pow(_data[i], 2.f), 0.5f));
+	return result;
+}
+
+// ============ //
+
+template <typename K>
 ostream & operator<<(ostream & o, const Vector<K> & v)
 {
 	for (size_t i = 0; i != v.getSize(); i++)
