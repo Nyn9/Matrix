@@ -30,7 +30,7 @@ void    Vector<K>::scl(const K n)
 }
 
 template <typename K>
-K	Vector<K>::dot(const Vector<K> & v)
+K	Vector<K>::dot(const Vector<K> & v) const
 {
 	if (v.getSize() != _size) {
 		cerr << "The vectors doesn't have the same size." << endl; return K(0);

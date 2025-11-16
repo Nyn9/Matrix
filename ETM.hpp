@@ -47,7 +47,7 @@ class Vector
 		void    sub(const Vector<K> & v);
 		void    scl(const K n);
 
-		K		dot(const Vector<K> & v);
+		K		dot(const Vector<K> & v) const;
 
 		float	norm_1() const;
 		float	norm_2() const;
@@ -151,6 +151,14 @@ V	lerp(V const & u, const V& v, float const t)
 	V	tmpu = u;
 	V	tmpv = v;
 	return ((tmpv - tmpu) * t) + tmpu;
+}
+
+template <typename K>
+float	angle_cos(const Vector<K> & v, const Vector<K> & u)
+{
+	float dot = v.dot(u);
+
+	return (dot / (u.norm_2() * v.norm_2()));
 }
 
 #endif
