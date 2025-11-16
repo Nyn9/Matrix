@@ -12,13 +12,29 @@ template <typename K>
 class Vector
 {
 	public:
-		Vector() : _size(0) {}
+		Vector() : _data(), _size(0) {}
+		Vector(int size) : _data(size, 0), _size(size) {}
 		Vector(initializer_list<K> l) : _data(l) { _size = _data.size(); }
 		Vector(const Vector<K> & v) : _data(v.getData()), _size(v.getSize()) {}
 
 		Vector<K> & operator=(const Vector<K> & v) {
 			_data = v.getData();
 			_size = v.getSize();
+			return (*this);
+		}
+
+		Vector<K> & operator+(const Vector<K> & v) {
+			this->add(v);
+			return (*this);
+		}
+
+		Vector<K> & operator-(const Vector<K> & v) {
+			this->sub(v);
+			return (*this);
+		}
+
+		Vector<K> & operator*(const K n) {
+			this->scl(n);
 			return (*this);
 		}
 
@@ -41,13 +57,38 @@ template <typename K>
 class Matrix
 {
 	public:
+		Matrix() : _data(), _rows(0), _cols(0) {}
+		Matrix(int rows, int cols) : _data(rows, vector<K>(cols, 0)), _rows(rows), _cols(cols) {}
 		Matrix(initializer_list<initializer_list<K>> l) {
 			_data.reserve(l.size());
 			for (auto &row : l)
 				_data.emplace_back(row);
 			_rows = _data.size();
 			_cols = _data.empty() ? 0 : _data[0].size();
-		}	
+		}
+		Matrix(const Matrix<K> & m) : _data(m.getData()), _rows(m.getRows()), _cols(m.getCols()) {}
+
+		Matrix<K> & operator=(const Matrix<K> & m) {
+			_data = m.getData();
+			_rows = m.getRows();
+			_cols = m.getCols();
+			return (*this);
+		}
+
+		Matrix<K> & operator+(const Matrix<K> & m) {
+			this->add(m);
+			return (*this);
+		}
+
+		Matrix<K> & operator-(const Matrix<K> & m) {
+			this->sub(m);
+			return (*this);
+		}
+
+		Matrix<K> & operator*(const K n) {
+			this->scl(n);
+			return (*this);
+		}
 
 		size_t						getRows() const { return (_rows); }
 		size_t						getCols() const { return (_cols); }
@@ -76,25 +117,32 @@ ostream & operator<<(ostream & o, const Matrix<K> & m);
 template <typename K, typename T>
 K	linear_combination(initializer_list<K> const & v, initializer_list<T> const & coefs)
 {
-	K		result;
 	auto	vit = v.begin();
 	auto	cit = coefs.begin();
-	size_t	n = vit->getSize();
+	K		result(vit->getSize());
 	for (; vit != v.end(); ++vit, ++cit)
 	{
 		K tmp = *vit;
-		if (tmp.getSize() != n) {
+		if (result.getSize() != tmp.getSize()) {
 			cerr << "The vectors doesn't have the same size." << endl;
-			return K();
+			return K(0);
 		}
 		if (cit != coefs.end())
-			tmp.scl(*cit);
-		if (vit == v.begin())
-			result = tmp;
-		else
-			result.add(tmp);
+			result = result + (tmp * (*cit));
 	}
 	return result;
+}
+
+template <typename V>
+V	lerp(V const & u, const V& v, float const t)
+{
+	if (t < 0.f || t > 1.f) {
+		cerr << "t must be in [0, 1]." << endl;
+		return V();
+	}
+	V	tmpu = u;
+	V	tmpv = v;
+	return ((tmpv - tmpu) * t) + tmpu;
 }
 
 #endif
