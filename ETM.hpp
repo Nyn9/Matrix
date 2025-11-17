@@ -161,4 +161,23 @@ float	angle_cos(const Vector<K> & v, const Vector<K> & u)
 	return (dot / (u.norm_2() * v.norm_2()));
 }
 
+template <typename K>
+Vector<K>	cross_product(const Vector<K> & u,const Vector<K> & v)
+{
+	if (u.getSize() != 3 || v.getSize() != 3) {
+		cerr << "The vectors need to be 3-dimensional." << endl; return Vector<K>(0);
+	}
+
+	K	x(0), y(0), z(0);
+
+	auto& a = u.getData();
+	auto& b = v.getData();
+
+	x = (a[1] * b[2]) - (a[2] * b[1]);
+	y = (a[2] * b[0]) - (a[0] * b[2]);
+	z = (a[0] * b[1]) - (a[1] * b[0]);
+
+	return Vector<K>({x, y, z});
+}
+
 #endif
