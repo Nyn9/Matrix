@@ -33,6 +33,53 @@ void	Matrix<K>::scl(const K n)
 }
 
 template <typename K>
+Vector<K>	Matrix<K>::mul_vec(const Vector<K> & vec) const
+{
+	if (vec.getSize() != _cols) {
+		cerr << "The matrix columns and vector size are not compatible." << endl;
+		return Vector<K>(0);
+	}
+	vector<K>			result;
+	result.reserve(_rows);
+	const vector<K> &	vdata = vec.getData();
+	for (size_t i = 0; i < _rows; i++)
+	{
+		K tmp(0);
+		for (size_t j = 0; j < _cols; j++)
+			tmp += _data[i][j] * vdata[j];
+		result.push_back(tmp);
+	}
+	return Vector<K>(result);
+}
+
+template <typename K>
+Matrix<K>	Matrix<K>::mul_mat(const Matrix<K> & mat) const
+{
+	if (mat.getRows() != _cols) {
+		cerr << "The matrix dimensions are not compatible." << endl;
+		return Matrix<K>();
+	}
+	vector<vector<K>>			result;
+	result.reserve(_rows);
+	const vector<vector<K>> &	mdata = mat.getData();
+	for (size_t i = 0; i < _rows; i++)
+	{
+		vector<K>	vtmp;
+		vtmp.reserve(mat.getCols());
+		for (size_t k = 0; k < mat.getCols(); k++)
+		{
+			K	tmp(0);
+			for (size_t j = 0; j < _cols; j++)
+				tmp += _data[i][j] * mdata[j][k];
+			vtmp.push_back(tmp);
+		}
+		result.push_back(vtmp);
+	}
+	return Matrix<K>(result);
+}
+// ================ //
+
+template <typename K>
 ostream & operator<<(ostream & o, const Matrix<K> & m)
 {
 	if (!m.getRows())

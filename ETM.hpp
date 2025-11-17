@@ -16,6 +16,7 @@ class Vector
 	public:
 		Vector() : _data(), _size(0) {}
 		Vector(int size) : _data(size, 0), _size(size) {}
+		Vector(vector<K> const & data) : _data(data), _size(data.size()) {}
 		Vector(initializer_list<K> l) : _data(l) { _size = _data.size(); }
 		Vector(const Vector<K> & v) : _data(v.getData()), _size(v.getSize()) {}
 
@@ -66,6 +67,10 @@ class Matrix
 {
 	public:
 		Matrix() : _data(), _rows(0), _cols(0) {}
+		Matrix(vector<vector<K>> const & data) : _data(data) {
+			_rows = data.size();
+			_cols = _data.empty() ? 0 : _data[0].size();
+		}
 		Matrix(int rows, int cols) : _data(rows, vector<K>(cols, 0)), _rows(rows), _cols(cols) {}
 		Matrix(initializer_list<initializer_list<K>> l) {
 			_data.reserve(l.size());
@@ -106,6 +111,9 @@ class Matrix
 		void    add(const Matrix<K> & m);
 		void    sub(const Matrix<K> & m);
 		void    scl(const K n);
+
+		Vector<K>	mul_vec(const Vector<K> & vec) const;
+		Matrix<K>	mul_mat(const Matrix<K> & mat) const;
 
 	private:
 		vector<vector<K>>	_data;
