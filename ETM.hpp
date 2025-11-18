@@ -115,6 +115,8 @@ class Matrix
 		Vector<K>	mul_vec(const Vector<K> & vec) const;
 		Matrix<K>	mul_mat(const Matrix<K> & mat) const;
 
+		K	trace() const;
+
 	private:
 		vector<vector<K>>	_data;
 		size_t				_rows;

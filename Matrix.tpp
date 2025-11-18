@@ -77,6 +77,20 @@ Matrix<K>	Matrix<K>::mul_mat(const Matrix<K> & mat) const
 	}
 	return Matrix<K>(result);
 }
+
+template <typename K>
+K	Matrix<K>::trace() const
+{
+	if (!isSquare()) {
+		cerr << "The matrix is not square." << endl;
+		return K(0);
+	}
+	K	res(0);
+	for (size_t i = 0; i < _rows; i++)
+		res += _data[i][i];
+	return (res);
+}
+
 // ================ //
 
 template <typename K>
