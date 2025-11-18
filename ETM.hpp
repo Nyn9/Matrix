@@ -117,6 +117,8 @@ class Matrix
 
 		K	trace() const;
 
+		Matrix<K>	transpose() const;
+
 	private:
 		vector<vector<K>>	_data;
 		size_t				_rows;

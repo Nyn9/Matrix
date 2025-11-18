@@ -4,6 +4,8 @@ using namespace std;
 
 int main()
 {
+	cout << "===== Cosine tests =====" << endl << endl;
+
 	{
 		const Vector<float> u({1., 0.});
 		const Vector<float> v({1., 0.});

@@ -91,6 +91,22 @@ K	Matrix<K>::trace() const
 	return (res);
 }
 
+template <typename K>
+Matrix<K>	Matrix<K>::transpose() const
+{
+	vector<vector<K>> result;
+	result.reserve(_cols);
+	for (size_t i = 0; i < _cols; i++)
+	{
+		vector<K>	tmp;
+		tmp.reserve(_rows);
+		for (size_t j = 0; j < _rows; j++)
+			tmp.push_back(_data[j][i]);
+		result.push_back(tmp);
+	}
+	return (Matrix(result));
+}
+
 // ================ //
 
 template <typename K>
