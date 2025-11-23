@@ -107,6 +107,58 @@ Matrix<K>	Matrix<K>::transpose() const
 	return (Matrix(result));
 }
 
+// Row echelon form
+
+template <typename K>
+K	Matrix<K>::determinant() const
+{
+	if (!isSquare()) {
+		cerr << "The matrix is not square." << endl;
+		return K(0);
+	}
+
+	if (_rows == 1)
+		return _data[0][0];
+	else if (_rows == 2)
+		return (_data[0][0] * _data[1][1]) - (_data[0][1] * _data[1][0]);
+	else if (_rows == 3)
+	{
+		K	aei = _data[0][0] * _data[1][1] * _data[2][2];
+		K	bfg = _data[0][1] * _data[1][2] * _data[2][0];
+		K	cdh = _data[0][2] * _data[1][0] * _data[2][1];
+		K	ceg = _data[0][2] * _data[1][1] * _data[2][0];
+		K	bdi = _data[0][1] * _data[1][0] * _data[2][2];
+		K	afh = _data[0][0] * _data[1][2] * _data[2][1];
+		return (aei + bfg + cdh - ceg - bdi - afh);
+	}
+	else if (_rows == 4)
+	{
+		K	result(0);
+		for (size_t i = 0; i < 4; i++)
+		{
+			vector<vector<K>>	minor;
+			minor.reserve(3);
+			for (size_t j = 1; j < _rows; j++)
+			{
+				vector<K>	minor_row;
+				minor_row.reserve(3);
+				for (size_t k = 0; k < _cols; k++)
+				{
+					if (k == i)
+						continue;
+					minor_row.push_back(_data[j][k]);
+				}
+				minor.push_back(minor_row);
+			}
+			int minus = i % 2 == 0 ? 1 : -1;
+			result += _data[0][i] * minus * Matrix<K>(minor).determinant();
+		}
+		return (result);
+	}
+	cerr << "Determinant calculation for matrices larger than 4x4 is not implemented." << endl;
+	return K(0);
+}
+
 // ================ //
 
 template <typename K>

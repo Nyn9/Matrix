@@ -119,6 +119,10 @@ class Matrix
 
 		Matrix<K>	transpose() const;
 
+		// Row echelon form
+
+		K	determinant() const;
+
 	private:
 		vector<vector<K>>	_data;
 		size_t				_rows;
