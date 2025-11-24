@@ -123,6 +123,8 @@ class Matrix
 
 		K	determinant() const;
 
+		Matrix<K>	inverse() const;
+
 	private:
 		vector<vector<K>>	_data;
 		size_t				_rows;

@@ -159,6 +159,70 @@ K	Matrix<K>::determinant() const
 	return K(0);
 }
 
+template <typename K>
+Matrix<K>	Matrix<K>::inverse() const
+{
+	if (!isSquare()) {
+		cerr << "The matrix is not square." << endl;
+		return Matrix<K>();
+	}
+
+	if (determinant() == 0) {
+		cerr << "The determinant of the matrix is zero." << endl;
+		return Matrix<K>();
+	}
+
+	vector<vector<K>>	inv(_rows, vector<K>(_cols, 0));
+	vector<vector<K>>	data = _data;
+	for (size_t i = 0; i < _rows; i++)
+		inv[i][i] = 1;
+
+	for (size_t col = 0; col < _cols; col++)
+	{
+		K	pivot(0);
+		// Chercher pivot sur la colonne
+		for (size_t i = col; i < _rows; i++)
+		{
+			if (data[i][col] != 0)
+			{
+				pivot = data[i][col];
+				if (i != col)
+				{
+					swap(data[i], data[col]);
+					swap(inv[i], inv[col]);
+				}
+				break;
+			}
+		}
+
+		if (pivot == 0) {
+			cerr << "The determinant of the matrix is zero." << endl;
+			return Matrix<K>();
+		}
+
+		// Normaliser la ligne du pivot pour que pivot == 1
+		for (size_t j = 0; j < _cols; j++)
+		{
+			data[col][j] /= pivot;
+			inv[col][j] /= pivot;
+		}
+
+		// Eliminer les autres lignes
+		for (size_t k = 0; k < _rows; k++)
+		{
+			if (k == col) continue;
+			K	factor = data[k][col];
+			for (size_t j = 0; j < _cols; j++)
+			{
+				data[k][j] -= factor * data[col][j];
+				inv[k][j] -= factor * inv[col][j];
+			}
+		}
+	}
+
+	return Matrix<K>(inv);
+}
+
 // ================ //
 
 template <typename K>
