@@ -120,6 +120,7 @@ class Matrix
 		Matrix<K>	transpose() const;
 
 		// Row echelon form
+		Matrix<K>	row_echelon() const;
 
 		K	determinant() const;
 

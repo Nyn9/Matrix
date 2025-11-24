@@ -108,9 +108,51 @@ Matrix<K>	Matrix<K>::transpose() const
 }
 
 // Row echelon form
+template <typename K>
+Matrix<K> Matrix<K>::row_echelon() const
+{
+
+	vector<vector<K>>	data = _data;
+
+	size_t	row = 0;
+	for (size_t col = 0; col < _cols && row < _rows; col++)
+	{
+		K	pivot(0);
+		// Chercher pivot sur la colonne
+		for (size_t i = row; i < _rows; i++)
+		{
+			if (data[i][col] != 0)
+			{
+				pivot = data[i][col];
+				if (i != row)
+					swap(data[i], data[row]);
+				break;
+			}
+		}
+
+		if (pivot == 0)
+			continue;
+
+		// Normaliser la ligne du pivot pour que pivot == 1
+		for (size_t j = 0; j < _cols; j++)
+			data[row][j] /= pivot;
+
+		// Eliminer les autres lignes
+		for (size_t k = 0; k < _rows; k++)
+		{
+			if (k == row) continue;
+			K	factor = data[k][col];
+			for (size_t j = 0; j < _cols; j++)
+				data[k][j] -= factor * data[row][j];
+		}
+		row++;
+	}
+
+	return Matrix<K>(data);
+}
 
 template <typename K>
-K	Matrix<K>::determinant() const
+K Matrix<K>::determinant() const
 {
 	if (!isSquare()) {
 		cerr << "The matrix is not square." << endl;
@@ -235,7 +277,10 @@ ostream & operator<<(ostream & o, const Matrix<K> & m)
 		o << "[ ";
 		for (size_t j = 0; j != m.getCols(); j++)
 		{
-			o << m.getData()[i][j];
+			float x = m.getData()[i][j];
+			if (fabs(x) < 1e-8)
+				x = 0;
+			o << x;
 			if (j != m.getCols() - 1)
 				o << ",";
 			o << " ";
