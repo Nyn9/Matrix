@@ -119,12 +119,13 @@ class Matrix
 
 		Matrix<K>	transpose() const;
 
-		// Row echelon form
 		Matrix<K>	row_echelon() const;
 
 		K	determinant() const;
 
 		Matrix<K>	inverse() const;
+
+		size_t		rank() const;
 
 	private:
 		vector<vector<K>>	_data;

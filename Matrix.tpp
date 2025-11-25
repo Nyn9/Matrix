@@ -107,7 +107,6 @@ Matrix<K>	Matrix<K>::transpose() const
 	return (Matrix(result));
 }
 
-// Row echelon form
 template <typename K>
 Matrix<K> Matrix<K>::row_echelon() const
 {
@@ -263,6 +262,27 @@ Matrix<K>	Matrix<K>::inverse() const
 	}
 
 	return Matrix<K>(inv);
+}
+
+template <typename K>
+size_t	Matrix<K>::rank() const
+{
+	Matrix<K>	rref = this->row_echelon();
+	size_t		rank = 0;
+
+	for (size_t i = 0; i < rref.getRows(); i++)
+	{
+		for (size_t j = 0; j < rref.getCols(); j++)
+		{
+			if (rref.getData()[i][j] != 0)
+			{
+				rank++;
+				break;
+			}
+		}
+	}
+
+	return rank;
 }
 
 // ================ //
