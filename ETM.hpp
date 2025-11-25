@@ -200,4 +200,19 @@ Vector<K>	cross_product(const Vector<K> & u,const Vector<K> & v)
 	return Vector<K>({x, y, z});
 }
 
+Matrix<float>	projection(float fov, float ratio, float near, float far)
+{
+	vector<vector<float>>	proj(4, vector<float>(4, 0));
+	float					rfov = fov * (3.14159 / 180);
+	float					f = 1 / (tan(rfov / 2));
+
+	proj[0][0] = (f / ratio);
+	proj[1][1] = f;
+	proj[2][2] = ((far + near) / (near - far));
+	proj[2][3] = ((2 * far * near) / (near - far));
+	proj[3][2] = -1;
+
+	return Matrix<float>(proj);
+}
+
 #endif
