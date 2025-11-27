@@ -151,18 +151,18 @@ K	linear_combination(initializer_list<K> const & v, initializer_list<T> const & 
 	for (; vit != v.end(); ++vit, ++cit)
 	{
 		K tmp = *vit;
-		if (result.getSize() != tmp.getSize()) {
-			cerr << "The vectors doesn't have the same size." << endl;
-			return K(0);
-		}
 		if (cit != coefs.end())
 			result = result + (tmp * (*cit));
+		else
+			result = result + tmp;
+		if (result.getSize() != tmp.getSize()) 
+			return K(0);
 	}
 	return result;
 }
 
 template <typename V>
-V	lerp(V const & u, const V& v, float const t)
+V	lerp(const V & u, const V & v, const float t)
 {
 	if (t < 0.f || t > 1.f) {
 		cerr << "t must be in [0, 1]." << endl;
@@ -176,9 +176,11 @@ V	lerp(V const & u, const V& v, float const t)
 template <typename K>
 float	angle_cos(const Vector<K> & v, const Vector<K> & u)
 {
-	float dot = v.dot(u);
-
-	return (dot / (u.norm_2() * v.norm_2()));
+	if (u.norm_2() == 0 || v.norm_2() == 0) {
+		cerr << "Cannot compute angle with zero-length vector." << endl;
+		return 0.f;
+	}
+	return (v.dot(u) / (u.norm_2() * v.norm_2()));
 }
 
 template <typename K>
@@ -206,13 +208,12 @@ Matrix<float>	projection(float fov, float ratio, float near, float far)
 	float					rfov = fov * (3.14159 / 180);
 	float					f = 1 / (tan(rfov / 2));
 
-	proj[0][0] = (f / ratio);
-	proj[1][1] = f;
-	proj[2][2] = ((far + near) / (near - far));
-	proj[2][3] = ((2 * far * near) / (near - far));
-	proj[3][2] = -1;
-
-	return Matrix<float>(proj);
+	return Matrix<float>({
+		{(f / ratio), 0, 0, 0},
+		{0, f, 0, 0},
+		{0, 0, (far + near) / (near - far), (2 * far * near) / (near - far)},
+		{0, 0, -1, 0}
+	});
 }
 
 #endif
