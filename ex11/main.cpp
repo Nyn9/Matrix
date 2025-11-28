@@ -73,5 +73,6 @@ int main()
 			{8., 5., 1., 4., 9.},
 		});
 		cout << u.determinant() << endl;
+		// Determinant calculation for matrices larger than 4x4 is not implemented.
 	}
 }
